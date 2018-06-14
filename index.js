@@ -6,14 +6,14 @@ app = express();
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 // Actually connect
-// con.connect(function(err) {
-// 	if (err) {
-// 		console.error('error connecting: ' + err.stack);
-// 		return;
-// 	}
+con.connect(function(err) {
+	if (err) {
+		console.error('error connecting: ' + err.stack);
+		return;
+	}
 
-// 	console.log('mysql connected as id ' + con.threadId);
-// });
+	console.log('mysql connected as id ' + con.threadId);
+});
 // Have some SQL commons
 sql = require('./sql/common');
 
