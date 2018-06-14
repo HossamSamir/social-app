@@ -14,7 +14,7 @@ con.connect(function(err) {
 
 	console.log('mysql connected as id ' + con.threadId);
 });
-// Have some SQL commons
+// Have some SQL commons 
 sql = require('./sql/common');
 
 // importing routes
