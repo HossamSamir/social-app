@@ -1,29 +1,30 @@
-var crypto = require('crypto');
+var bcrypt = require('bcrypt');
+var connection = require('./../../config');
 
-app.get('/api/signin',function(req,res){
-    var identifier = req.param("identifier");
+
+app.post('/api/signin',function(req,res){
+    var email = req.param("email");
     var password = req.param("password");
-    var hash = crypto.createHash('md5').update(password).digest("hex");
-
-    con.query('SELECT id, is_banned from users WHERE (phone=? OR email=? OR username=?) AND password=? LIMIT 1',
-        [identifier, identifier, identifier, hash], function(err,data) {
-        if(!err) {
-            if(data.length == 0)
-            {
+    
+    var hashpass = bcrypt.compareSync(password, hash);
+    if(password==hashpass){
+//Password is correct....
+connection.query('SELECT * from users WHERE username=? AND password=? LIMIT 1',
+            [email,hashpass], function(err,data) {
+            if(err) {
                 res.json({
-                    response: 0
-                });
+                    status:false,
+                    message:"Email and password does not match"
+                    });
             }
             else
-            {
-                res.json({
-                    response: data[0]['is_banned'] == 0 ? String(data[0]['id']) : -1
-                });
-            }
-        }
-        else
         {
-            res.json(err);
+            res.json({
+              status:true,
+              message:"Login successfully"
+             });
         }
+     
     });
+    }
 });

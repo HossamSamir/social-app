@@ -1,4 +1,5 @@
 // MySQL database
+
 var mysql = require('mysql');
 
 // Config connection
@@ -8,3 +9,5 @@ con = mysql.createConnection({
 	password: '',
 	database: 'social_chat'
 });
+
+
