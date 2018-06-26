@@ -5,13 +5,13 @@ var today = new Date();
 
 
 app.post('/api/signup',function(req,res){
-    var username = req.param("username");
-    var password = req.param("password");
-    var email = req.param("email");
-    var sex = req.param("sex");
+    var username = req.body.user;
+    var password = req.body.pass;
+    var email = req.body.mail;
+    var sex = req.body.sexx;
     var date = today;
 
-    //var hashpass = bcrypt.hashSync(password, 10);
+    const saltRounds = 10;
 
     con.query('SELECT user_id FROM users WHERE email=? LIMIT 1', [email], function(err,data) {
         if (err) 
@@ -32,7 +32,9 @@ app.post('/api/signup',function(req,res){
                 else
                 {
                     // not registered
-    con.query('INSERT INTO users(username,password,email,sex) VALUES(?,?,?,?)',[username,password,email,sex], function(err,data) {                
+    bcrypt.hash(password, saltRounds, function(err, hash) {
+                        // Store hash in your password DB.
+        con.query('INSERT INTO users(username,password,email,sex) VALUES(?,?,?,?)',[username,hash,email,sex], function(err,data) {                
                         if(!err) {
                             res.json({
                                 response: 2
@@ -43,6 +45,7 @@ app.post('/api/signup',function(req,res){
                             res.json(err);
                         }
                     })
+                });
                 }
             })
     });

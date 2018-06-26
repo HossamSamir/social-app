@@ -3,6 +3,7 @@ const config = require('./config');
 // express configs
 const express = require('express');
 app = express();
+var bodyParser = require('body-parser');      //el package bt3t kosom el post ely kant mtl3a myteen aboyaa !!! kont el mfrood atwk3 ana el mwdoo3 da mn el NULL xD
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 // Actually connect
@@ -14,6 +15,8 @@ con.connect(function(err) {
 
 	console.log('mysql connected as id ' + con.threadId);
 });
+app.use(bodyParser.urlencoded({extended: false}));   //El line da w ely t7to 3lshan el pos w w5deen el package bt3t el body-parser 3lshan kosom node js :D
+app.use(bodyParser.json());                          // aywa da el line ely t7to 
 // Have some SQL commons
 sql = require('./sql/common');
 
